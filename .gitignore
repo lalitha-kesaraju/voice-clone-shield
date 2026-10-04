@@ -1,0 +1,10 @@
+.railway/
+.env
+.venv/
+venv/
+node_modules/
+__pycache__/
+*.pyc
+*.db
+storage/
+data/

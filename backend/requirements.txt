@@ -1,0 +1,22 @@
+# Voice-Clone Shield — backend dependencies
+# Install: pip install -r requirements.txt
+# NOTE: torch CPU wheel is large (~200MB). The app lazy-loads the ML model,
+# so everything except enrollment/matching works without it.
+
+fastapi>=0.115
+uvicorn[standard]>=0.30
+sqlalchemy>=2.0
+psycopg2-binary>=2.9
+pgvector>=0.3
+pyjwt>=2.8
+python-multipart>=0.0.9
+numpy>=1.26
+scipy>=1.13
+soundfile>=0.12
+fpdf2>=2.7
+
+# --- Speaker-embedding model (CPU). Required for enrollment + matching. ---
+# Install the CPU-only torch build first to avoid pulling CUDA wheels:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch>=2.2
+speechbrain>=1.0
