@@ -55,8 +55,10 @@ docker compose up -d
 cd backend
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-# CPU-only torch (avoids the giant CUDA wheels):
-pip install torch --index-url https://download.pytorch.org/whl/cpu
+# CPU-only torch + torchaudio (avoids the giant CUDA wheels).
+# torchaudio MUST come from the same CPU index — the default PyPI wheel is
+# CUDA-linked and fails to load against CPU torch (breaks enrollment).
+pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
 cp .env.example .env
 # edit .env -> set JWT_SECRET, e.g.  openssl rand -hex 32
 uvicorn app.main:app --reload --port 8000

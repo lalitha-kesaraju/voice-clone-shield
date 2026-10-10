@@ -13,8 +13,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg libsndfi
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY backend/requirements.txt ./requirements.txt
-# CPU-only torch first (CUDA wheels are GBs); requirements' torch>=2.2 then resolves as satisfied.
-RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu \
+# CPU-only torch AND torchaudio first (CUDA wheels are GBs); requirements'
+# torch>=2.2 and speechbrain's torchaudio dep then resolve as satisfied.
+# torchaudio MUST come from the same CPU index — the PyPI wheel is
+# CUDA-linked and its native lib fails to load against CPU-only torch,
+# breaking enrollment/matching with "Could not load this library".
+RUN pip install --no-cache-dir torch torchaudio --index-url https://download.pytorch.org/whl/cpu \
     && pip install --no-cache-dir -r requirements.txt
 COPY backend/ ./backend/
 COPY --from=fe /build/dist ./frontend-dist

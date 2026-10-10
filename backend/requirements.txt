@@ -16,7 +16,8 @@ soundfile>=0.12
 fpdf2>=2.7
 
 # --- Speaker-embedding model (CPU). Required for enrollment + matching. ---
-# Install the CPU-only torch build first to avoid pulling CUDA wheels:
-#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+# Install the CPU-only torch+torchaudio builds first to avoid pulling CUDA wheels:
+#   pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+# (the PyPI torchaudio wheel is CUDA-linked and fails against CPU-only torch)
 torch>=2.2
 speechbrain>=1.0
